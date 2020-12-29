@@ -26,7 +26,7 @@ def train():
 
     # Monitors
     # setting up monitors for logging
-    monitor_path = './nnmonitor-' + args.output
+    monitor_path = args.output
     monitor = Monitor(monitor_path)
 
     monitor_best_epoch = MonitorSeries(
