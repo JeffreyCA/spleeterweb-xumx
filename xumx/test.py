@@ -1,3 +1,17 @@
+# Copyright (c) 2021 Sony Corporation. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from pathlib import Path
 import warnings
 import norbert
@@ -7,8 +21,8 @@ import soundfile as sf
 import numpy as np
 import nnabla as nn
 from nnabla.ext_utils import get_extension_context
-from args import get_inference_args
-import model
+from .args import get_inference_args
+from .model import *
 
 
 def istft(X, rate=44100, n_fft=4096, n_hopsize=1024):
@@ -64,7 +78,7 @@ def separate(
     sources = ['bass', 'drums', 'vocals', 'other']
     for j, target in enumerate(sources):
         if j == 0:
-            unmix_target = model.OpenUnmix_CrossNet(max_bin=1487)
+            unmix_target = OpenUnmix_CrossNet(max_bin=1487)
             unmix_target.is_predict = True
             nn.load_parameters(model_path)
             mix_spec, msk, _ = unmix_target(audio_nn, test=True)
@@ -77,7 +91,7 @@ def separate(
         source_names += [target]
     V = np.transpose(np.array(V), (1, 3, 2, 0))
 
-    real, imag = model.STFT(audio_nn, center=True)
+    real, imag = STFT(audio_nn, center=True)
 
     # convert to complex numpy type
     X = real.d + imag.d*1j

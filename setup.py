@@ -27,8 +27,7 @@ setuptools.setup(
         'setuptools>=41.0.0',
         'norbert>=0.2.1',
         'resampy==0.2.2',
-        'nnabla==1.15.0',
-        'nnabla-ext-cuda100==1.15.0',
+        'nnabla',
     ],
     python_requires='>=3.6',
 )

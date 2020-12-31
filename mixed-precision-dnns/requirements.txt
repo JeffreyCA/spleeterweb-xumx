@@ -1,3 +1,0 @@
-nnabla
-nnabla_ext_cuda101
-attrs
