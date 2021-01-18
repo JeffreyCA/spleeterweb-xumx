@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="jeffreyca-xumx",
+    name="xumx-unofficial",
     version="0.1.0",
     author="JeffreyCA",
     author_email="jeffreyca16@gmail.com",
@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache License",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
     install_requires=[
@@ -27,8 +27,8 @@ setuptools.setup(
         'setuptools>=41.0.0',
         'norbert>=0.2.1',
         'resampy==0.2.2',
-        'nnabla',
-        'pydub'
+        'nnabla>=1.13.0',
+        'pydub>=0.24.1'
     ],
     python_requires='>=3.6',
 )
