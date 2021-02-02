@@ -1,6 +1,8 @@
-#  CrossNet-Open-Unmix (X-UMX)
+# CrossNet-Open-Unmix (X-UMX) for Spleeter Web
 
-This repository contains the NNabla implementation of __CrossNet-Open-Unmix (X-UMX)__, an improved version of [Open-Unmix (UMX)](https://github.com/sigsep/open-unmix-nnabla)  for music source separation. X-UMX achieves an improved performance without additional learnable parameters compared to the original UMX model. Details of X-UMX can be found in [our paper](https://arxiv.org/abs/2010.04228).
+**This is a modified version of the [official X-UMX repo](https://github.com/sony/ai-research-code/tree/master/x-umx) made to be compatible with [Spleeter Web](https://github.com/JeffreyCA/spleeter-web)!**
+
+This repository contains the NNabla implementation of __CrossNet-Open-Unmix (X-UMX)__, an improved version of [Open-Unmix (UMX)](https://github.com/sigsep/open-unmix-nnabla) for music source separation. X-UMX achieves an improved performance without additional learnable parameters compared to the original UMX model. Details of X-UMX can be found in [our paper](https://arxiv.org/abs/2010.04228).
 
 ## Quick Music Source Separation Demo by X-UMX
 
@@ -39,7 +41,7 @@ The model was trained on the [MUSDB18](https://sigsep.github.io/datasets/musdb.h
 
 In order to use it, please use the following command:
 ```python
-python test.py  --inputs [Input mixture (any audio format supported by FFMPEG)] --model {path to downloaded x-umx.h5 weights file} --context cpu --chunk-dur 10 --outdir ./results/ 
+python -m xumx.test  --inputs [Input mixture (any audio format supported by FFMPEG)] --model {path to downloaded x-umx.h5 weights file} --context cpu --chunk-dur 10 --outdir ./results/ 
 ```
 
 Please note that our X-UMX integrates the different instrument networks of the original UMX by a crossing operation, and thus X-UMX requires more memory. So, it maybe difficult to run the model on smaller GPU. So, though default choice is GPU inference, above example uses the option `--context cpu`. Also note that because memory requirement is high, we suggest users to set `--chunk-dur` with values appropriate for each computer. It is used to break audio into smaller chunks, separate sources and stitch them back together. If your inference crashes, kindly reduce chunk duration and try again.
@@ -55,7 +57,7 @@ pip install museval
 and then run the evaluation using
 
 ```python
-python eval.py --model [path to downloaded x-umx.h5 model] --root [Path of MUSDB18] --outdir [Path to save musdb estimates] --evaldir [Path to save museval results]
+python -m xums.eval --model [path to downloaded x-umx.h5 model] --root [Path of MUSDB18] --outdir [Path to save musdb estimates] --evaldir [Path to save museval results]
 ```
 
 ## Training X-UMX
@@ -76,7 +78,7 @@ Training (Single/Distributed training) can be started using below commands.
 ### Single GPU training
 
 ```python
-python train.py --root [Path of MUSDB18] --output [Path to save weights]
+python -m xumx.train --root [Path of MUSDB18] --output [Path to save weights]
 ```
 
 ### Distributed Training
@@ -86,7 +88,7 @@ export CUDA_VISIBLE_DEVICES=0,1,2,3 {device ids that you want to use}
 ```
 
 ```python
-mpirun -n {no. of devices} python train.py --root [Path of MUSDB18] --output [Path to save weights]
+mpirun -n {no. of devices} python -m xumx.train --root [Path of MUSDB18] --output [Path to save weights]
 ```
 
 Please note that above sample training scripts will work on high quality 'STEM' or low quality 'MP4 files'. In case you would like faster data loading, kindly look at [more details here](https://github.com/sigsep/sigsep-mus-db#using-wav-files-optional) to generate decoded 'WAV' files. In that case, please use `--is-wav` flag for training.
